@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { MongooseModule } from '@nestjs/mongoose'
 
 @Module({
   imports: [
@@ -7,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env',
       isGlobal: true,
     }),
+    MongooseModule.forRoot(process.env.MONGO_URI),
   ],
   controllers: [],
   providers: [],
