@@ -10,6 +10,8 @@ import { Model } from 'mongoose'
 import { Category } from './models/category.model'
 import { CreateCategoryDto } from './dots/create.dto'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
+import { UpdateCategoryDto } from './dots/update.dto'
+import { ResponseFormat } from 'src/shared/interfaces/response.interface'
 
 @Injectable()
 export class CategoryService {
@@ -19,7 +21,7 @@ export class CategoryService {
   ) {}
 
   // create a category
-  async create(createDto: CreateCategoryDto) {
+  async create(createDto: CreateCategoryDto): Promise<ResponseFormat<any>> {
     const { slug, value, disabled, parent } = createDto
 
     // check exist category
@@ -54,6 +56,54 @@ export class CategoryService {
       data: {
         category,
       },
+    }
+  }
+
+  // update a category by ID
+  async update(
+    id: string,
+    updateDto: UpdateCategoryDto,
+  ): Promise<ResponseFormat<any>> {
+    try {
+      const { slug, value, disabled, parent } = updateDto
+
+      // check exist category
+      await this.findCategoryById(id)
+
+      // check exist parent category
+      if (parent) {
+        const existParentCategory = await this.categoryModel.findById(parent)
+        if (!existParentCategory) {
+          throw new BadRequestException(
+            ResponseMessages.PARENT_CATEGORY_NOT_EXISTS,
+          )
+        }
+      }
+
+      // update category
+      const updateResult = await this.categoryModel.updateOne(
+        { _id: id },
+        {
+          slug,
+          value,
+          disabled,
+          parent,
+        },
+      )
+      if (!updateResult.modifiedCount) {
+        throw new InternalServerErrorException(
+          ResponseMessages.FAILED_UPDATE_CATEGORY,
+        )
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          category: updateResult,
+        },
+      }
+    } catch (err) {
+      throw err
     }
   }
 

@@ -1,22 +1,22 @@
 import { applyDecorators } from '@nestjs/common'
 import {
   ApiBadRequestResponse,
-  ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
-export const ApiCreate = () => {
+export const ApiUpdate = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'create a category',
+      summary: 'update a category by ID',
       description: 'get Jwt Token',
     }),
-    ApiCreatedResponse({
+    ApiOkResponse({
       schema: {
         example: {
-          statusCode: 201,
+          statusCode: 200,
           data: {
             _id: '64a01b450d95ead9c8ea82ba',
             name: 'nodejs',
