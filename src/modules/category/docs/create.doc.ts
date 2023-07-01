@@ -1,26 +1,30 @@
 import { applyDecorators } from '@nestjs/common'
-
 import {
   ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
   ApiOperation,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
-export const ApiSignup = () => {
+export const ApiCreate = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'signup with fullname, username and password',
+      summary: 'create a category',
       description: 'get Jwt Token',
     }),
-    ApiOkResponse({
+    ApiCreatedResponse({
       schema: {
         example: {
-          statusCode: 200,
+          statusCode: 201,
           data: {
-            accessToken: 'xxxx',
+            _id: '64a01b450d95ead9c8ea82ba',
+            name: 'nodejs',
+            value: 'NodeJs',
+            disabled: false,
+            parent: '64a01b1f0d95ead9c8ea82b6',
+            createdAt: '2023-07-01T12:25:41.099Z',
+            updatedAt: '2023-07-01T12:25:41.099Z',
           },
         },
       },
@@ -29,7 +33,7 @@ export const ApiSignup = () => {
       schema: {
         example: {
           statusCode: 400,
-          message: ResponseMessages.USERNAME_ALREADY_EXISTED,
+          message: ResponseMessages.CATEGORY_ALREADY_EXISTS,
           error: 'Bad Request',
         },
       },
