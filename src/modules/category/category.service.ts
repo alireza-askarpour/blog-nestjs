@@ -3,14 +3,17 @@ import {
   HttpStatus,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
 import { Category } from './models/category.model'
+
 import { CreateCategoryDto } from './dots/create.dto'
-import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 import { UpdateCategoryDto } from './dots/update.dto'
+
+import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 import { ResponseFormat } from 'src/shared/interfaces/response.interface'
 
 @Injectable()
@@ -142,6 +145,29 @@ export class CategoryService {
         data: {
           category,
         },
+      }
+    } catch (err) {
+      throw err
+    }
+  }
+
+  async delete(id: string): Promise<ResponseFormat<any>> {
+    try {
+      // check exist category
+      const existCategory = await this.categoryModel.findOne({ _id: id })
+      if (!existCategory) {
+        throw new NotFoundException(ResponseMessages.CATEGORY_NOT_FOUND)
+      }
+
+      const deletedResult = await this.categoryModel.deleteOne({ _id: id })
+      if (!deletedResult.deletedCount) {
+        throw new InternalServerErrorException(
+          ResponseMessages.FAILED_DELETE_CATEGORY,
+        )
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
       }
     } catch (err) {
       throw err
