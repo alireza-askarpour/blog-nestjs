@@ -10,8 +10,8 @@ import { ResponseMessages } from 'src/shared/constants/response-messages.constan
 export const ApiCreate = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'create a category',
-      description: 'get Jwt Token',
+      summary: 'create category',
+      description: 'create a category',
     }),
     ApiCreatedResponse({
       schema: {

@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 
 import { CategoryService } from './category.service'
@@ -7,9 +7,10 @@ import { CreateCategoryDto } from './dots/create.dto'
 import { ApiCreate } from './docs/create.doc'
 import { ApiUpdate } from './docs/update.doc'
 import { UpdateCategoryDto } from './dots/update.dto'
+import { ApiGetCategories } from './docs/get-categories.doc'
 
 @ApiTags('Category')
-@Controller('category')
+@Controller('categories')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
@@ -26,5 +27,11 @@ export class CategoryController {
     @Body() updateDto: UpdateCategoryDto,
   ) {
     return await this.categoryService.update(id, updateDto)
+  }
+
+  @ApiGetCategories()
+  @Get()
+  async getCategories() {
+    return await this.categoryService.getCategories()
   }
 }

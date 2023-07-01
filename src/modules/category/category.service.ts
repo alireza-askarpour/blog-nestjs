@@ -124,4 +124,22 @@ export class CategoryService {
     }
     return category
   }
+
+  async getCategories(): Promise<ResponseFormat<any>> {
+    try {
+      const categories = await this.categoryModel.find()
+      if (!categories) {
+        throw new InternalServerErrorException(ResponseMessages.SERVER_ERROR)
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          categories,
+        },
+      }
+    } catch (err) {
+      throw err
+    }
+  }
 }

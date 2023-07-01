@@ -10,8 +10,8 @@ import { ResponseMessages } from 'src/shared/constants/response-messages.constan
 export const ApiUpdate = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'update a category by ID',
-      description: 'get Jwt Token',
+      summary: 'update category',
+      description: 'update a category by ID',
     }),
     ApiOkResponse({
       schema: {
