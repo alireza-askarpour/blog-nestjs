@@ -1,9 +1,10 @@
-import { applyDecorators } from '@nestjs/common'
+import { HttpStatus, applyDecorators } from '@nestjs/common'
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOperation,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
@@ -32,7 +33,7 @@ export const ApiCreate = () => {
     ApiBadRequestResponse({
       schema: {
         example: {
-          statusCode: 400,
+          statusCode: HttpStatus.BAD_REQUEST,
           message: ResponseMessages.CATEGORY_ALREADY_EXISTS,
           error: 'Bad Request',
         },
@@ -41,16 +42,25 @@ export const ApiCreate = () => {
     ApiBadRequestResponse({
       schema: {
         example: {
-          statusCode: 400,
+          statusCode: HttpStatus.BAD_REQUEST,
           message: ResponseMessages.PARENT_CATEGORY_NOT_EXISTS,
           error: 'Bad Request',
+        },
+      },
+    }),
+    ApiUnauthorizedResponse({
+      schema: {
+        example: {
+          statusCode: HttpStatus.UNAUTHORIZED,
+          message: ResponseMessages.UNAUTHORIZED,
+          error: 'Unauthorized',
         },
       },
     }),
     ApiInternalServerErrorResponse({
       schema: {
         example: {
-          statusCode: 500,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
           message: ResponseMessages.SERVER_ERROR,
           error: 'Internal Server Error',
         },

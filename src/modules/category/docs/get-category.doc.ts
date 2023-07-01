@@ -1,6 +1,5 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common'
 import {
-  ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -8,24 +7,23 @@ import {
 } from '@nestjs/swagger'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
-export const ApiUpdate = () => {
+export const ApiGetCategory = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'update category',
-      description: 'update a category by ID',
+      summary: 'get category',
+      description: 'get a category by ID',
     }),
     ApiOkResponse({
       schema: {
         example: {
           statusCode: HttpStatus.OK,
           data: {
-            _id: '64a01b450d95ead9c8ea82ba',
-            name: 'nodejs',
-            value: 'NodeJs',
+            _id: '64a0209b724e5f5f10492f3a',
+            slug: 'backend',
+            value: 'BackEnd',
             disabled: false,
-            parent: '64a01b1f0d95ead9c8ea82b6',
-            createdAt: '2023-07-01T12:25:41.099Z',
-            updatedAt: '2023-07-01T12:25:41.099Z',
+            createdAt: '2023-07-01T12:48:27.212Z',
+            updatedAt: '2023-07-01T13:36:02.631Z',
           },
         },
       },
@@ -36,24 +34,6 @@ export const ApiUpdate = () => {
           statusCode: HttpStatus.UNAUTHORIZED,
           message: ResponseMessages.UNAUTHORIZED,
           error: 'Unauthorized',
-        },
-      },
-    }),
-    ApiBadRequestResponse({
-      schema: {
-        example: {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: ResponseMessages.CATEGORY_ALREADY_EXISTS,
-          error: 'Bad Request',
-        },
-      },
-    }),
-    ApiBadRequestResponse({
-      schema: {
-        example: {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: ResponseMessages.PARENT_CATEGORY_NOT_EXISTS,
-          error: 'Bad Request',
         },
       },
     }),

@@ -68,7 +68,10 @@ export class CategoryService {
       const { slug, value, disabled, parent } = updateDto
 
       // check exist category
-      await this.findCategoryById(id)
+      const category = await this.categoryModel.findById(id)
+      if (!category) {
+        throw new BadRequestException(ResponseMessages.CATEGORY_NOT_FOUND)
+      }
 
       // check exist parent category
       if (parent) {
@@ -107,24 +110,6 @@ export class CategoryService {
     }
   }
 
-  // find a category by ID
-  async findCategoryById(id: string) {
-    const category = await this.categoryModel.findById(id)
-    if (!category) {
-      throw new BadRequestException(ResponseMessages.CATEGORY_NOT_FOUND)
-    }
-    return category
-  }
-
-  // find a category by slug
-  async findCategoryBySlug(slug: string) {
-    const category = await this.categoryModel.findOne({ slug })
-    if (!category) {
-      throw new BadRequestException(ResponseMessages.CATEGORY_NOT_FOUND)
-    }
-    return category
-  }
-
   async getCategories(): Promise<ResponseFormat<any>> {
     try {
       const categories = await this.categoryModel.find()
@@ -136,6 +121,26 @@ export class CategoryService {
         statusCode: HttpStatus.OK,
         data: {
           categories,
+        },
+      }
+    } catch (err) {
+      throw err
+    }
+  }
+
+  async getCategory(id: string): Promise<ResponseFormat<any>> {
+    try {
+      const category = await this.categoryModel.findById(id)
+      if (!category) {
+        throw new InternalServerErrorException(
+          ResponseMessages.CATEGORY_NOT_FOUND,
+        )
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          category,
         },
       }
     } catch (err) {
