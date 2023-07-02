@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 import { ApiTags } from '@nestjs/swagger'
 
 import { CategoryService } from './category.service'
@@ -8,9 +18,9 @@ import { UpdateCategoryDto } from './dots/update.dto'
 
 import { ApiCreate } from './docs/create.doc'
 import { ApiUpdate } from './docs/update.doc'
+import { ApiDelete } from './docs/delete.doc'
 import { ApiGetCategory } from './docs/get-category.doc'
 import { ApiGetCategories } from './docs/get-categories'
-import { ApiDelete } from './docs/delete.doc'
 
 @ApiTags('Category')
 @Controller('categories')
@@ -18,6 +28,7 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   // create a category
+  @UseGuards(AuthGuard())
   @ApiCreate()
   @Post()
   async createCategory(@Body() createDto: CreateCategoryDto) {
@@ -25,6 +36,7 @@ export class CategoryController {
   }
 
   // update a category by ID
+  @UseGuards(AuthGuard())
   @ApiUpdate()
   @Put(':id')
   async updateCategory(
@@ -49,6 +61,7 @@ export class CategoryController {
   }
 
   // delete a category by ID
+  @UseGuards(AuthGuard())
   @ApiDelete()
   @Delete(':id')
   async deleteCategoryById(@Param('id') id: string) {

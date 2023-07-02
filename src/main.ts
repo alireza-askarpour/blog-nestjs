@@ -8,9 +8,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   const config = new DocumentBuilder()
-    .setTitle('NestJs Blog')
-    .setDescription('The Blog API with NestJs and MongoDB')
+    .setTitle('Blog NestJs')
+    .setDescription('The Blog Web API using NestJs, MongoDB and GraphQL')
     .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      in: 'header',
+      name: 'Authorization',
+    })
     .build()
   const document = SwaggerModule.createDocument(app, config)
   const theme = new SwaggerTheme('v3')
