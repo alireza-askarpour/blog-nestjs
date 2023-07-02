@@ -18,7 +18,7 @@ async function bootstrap() {
     explorer: true,
     customCss: theme.getBuffer('dark'),
   }
-  SwaggerModule.setup('api', app, document, options)
+  SwaggerModule.setup('api-docs', app, document, options)
 
   app.useGlobalPipes(new ValidationPipe())
 
