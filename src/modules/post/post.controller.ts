@@ -20,6 +20,12 @@ import { UpdatePostDto } from './dtos/update.dto'
 export class PostController {
   constructor(private postService: PostService) {}
 
+  // get all posts
+  @Get()
+  async getPosts() {
+    return this.postService.getAll()
+  }
+
   // create a post
   @Post()
   async createPost(@Body() postDto: CreatePostDto, @Req() req: Request) {

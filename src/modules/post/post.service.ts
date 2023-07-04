@@ -124,4 +124,18 @@ export class PostService {
       },
     }
   }
+
+  async getAll() {
+    const posts = await this.postRepository.getAll()
+    if (!posts) {
+      throw new BadRequestException(ResponseMessages.FAILED_GET_POSTS)
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: {
+        posts,
+      },
+    }
+  }
 }

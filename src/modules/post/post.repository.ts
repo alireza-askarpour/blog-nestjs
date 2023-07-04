@@ -28,4 +28,8 @@ export class PostRepository {
   async delete(id: string) {
     return await this.postModel.deleteOne({ _id: id })
   }
+
+  async getAll() {
+    return await this.postModel.find()
+  }
 }
