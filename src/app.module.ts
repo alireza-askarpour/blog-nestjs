@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './modules/auth/auth.module'
 import { UsersModule } from './modules/users/users.module'
 import { CategoryModule } from './modules/category/category.module'
+import { PostModule } from './modules/post/post.module'
 
 import configuration from './config/app.config'
 
@@ -19,6 +20,7 @@ import configuration from './config/app.config'
     AuthModule,
     UsersModule,
     CategoryModule,
+    PostModule,
   ],
   controllers: [],
   providers: [],
