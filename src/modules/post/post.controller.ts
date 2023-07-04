@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Patch, Post, Req } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { Request } from 'express'
 
@@ -22,5 +30,11 @@ export class PostController {
   @Patch(':id')
   async updatePost(@Param('id') id: string, @Body() postDto: UpdatePostDto) {
     return this.postService.update(id, postDto)
+  }
+
+  // delete a post by ID
+  @Delete(':id')
+  async deletePost(@Param('id') id: string) {
+    return this.postService.delete(id)
   }
 }

@@ -92,4 +92,22 @@ export class PostService {
       statusCode: HttpStatus.OK,
     }
   }
+
+  async delete(id: string): Promise<ResponseFormat<any>> {
+    const existPost = await this.postRepository.findPostById(id)
+    if (!existPost) {
+      throw new BadRequestException(ResponseMessages.POST_NOT_FOUND)
+    }
+
+    const deletedPost = await this.postRepository.delete(id)
+    if (!deletedPost.deletedCount) {
+      throw new InternalServerErrorException(
+        ResponseMessages.FAILED_DELETE_POST,
+      )
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+    }
+  }
 }

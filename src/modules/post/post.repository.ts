@@ -24,4 +24,8 @@ export class PostRepository {
   async update(id: string, postDto: UpdatePostDto) {
     return await this.postModel.updateOne({ _id: id }, postDto)
   }
+
+  async delete(id: string) {
+    return await this.postModel.deleteOne({ _id: id })
+  }
 }
