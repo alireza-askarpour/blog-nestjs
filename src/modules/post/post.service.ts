@@ -15,7 +15,7 @@ import {
   alphabetNumber,
   nanoid,
 } from 'src/shared/utils/nanoid.util'
-import { getOnlyText } from 'src/shared/utils/get-only-text.util'
+import { UpdatePostDto } from './dtos/update.dto'
 
 @Injectable()
 export class PostService {
@@ -53,6 +53,43 @@ export class PostService {
       data: {
         post: createdPost,
       },
+    }
+  }
+
+  async update(
+    id: string,
+    postDto: UpdatePostDto,
+  ): Promise<ResponseFormat<any>> {
+    const { title, description, content, slug, category, tags } = postDto
+
+    const post = {
+      title,
+      description,
+      content,
+      slug,
+      category,
+      tags,
+    }
+
+    const existPost = await this.postRepository.findPostById(id)
+    if (!existPost) {
+      throw new BadRequestException(ResponseMessages.POST_NOT_FOUND)
+    }
+
+    const existSlug = await this.postRepository.findPostBySlug(postDto.slug)
+    if (existSlug) {
+      throw new BadRequestException(ResponseMessages.SLUG_ALREADY_EXIST)
+    }
+
+    const updatedPost = await this.postRepository.update(id, post)
+    if (!updatedPost) {
+      throw new InternalServerErrorException(
+        ResponseMessages.FAILED_UPDATE_POST,
+      )
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
     }
   }
 }
