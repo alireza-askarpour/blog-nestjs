@@ -110,4 +110,18 @@ export class PostService {
       statusCode: HttpStatus.OK,
     }
   }
+
+  async findById(id: string): Promise<ResponseFormat<any>> {
+    const post = await this.postRepository.findPostById(id)
+    if (!post) {
+      throw new BadRequestException(ResponseMessages.POST_NOT_FOUND)
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: {
+        post,
+      },
+    }
+  }
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
@@ -36,5 +37,11 @@ export class PostController {
   @Delete(':id')
   async deletePost(@Param('id') id: string) {
     return this.postService.delete(id)
+  }
+
+  // get a post by ID
+  @Get(':id')
+  async getPost(@Param('id') id: string) {
+    return this.postService.findById(id)
   }
 }
