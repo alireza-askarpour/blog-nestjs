@@ -67,4 +67,20 @@ export class PostRepository {
       ? ResponseMessages.UNLIKED_POST
       : ResponseMessages.LIKED_POST
   }
+
+  async bookmark(postId: string, userId: string) {
+    const bookmarkedPost = await this.postModel.findOne({
+      _id: postId,
+      bookmarks: userId,
+    })
+
+    const updateQuery = bookmarkedPost
+      ? { $pull: { bookmarks: userId } }
+      : { $push: { bookmarks: userId } }
+    await this.postModel.updateOne({ _id: postId }, updateQuery)
+
+    return bookmarkedPost
+      ? ResponseMessages.REMOVE_FROM_BOOKMARK
+      : ResponseMessages.ADD_TO_BOOKMARK
+  }
 }

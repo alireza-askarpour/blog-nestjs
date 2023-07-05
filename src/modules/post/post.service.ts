@@ -149,4 +149,15 @@ export class PostService {
       message,
     }
   }
+
+  async bookmark(postId: string, userId: string) {
+    await this.postRepository.findPostById(postId)
+
+    const message = await this.postRepository.bookmark(postId, userId)
+
+    return {
+      statusCode: HttpStatus.OK,
+      message,
+    }
+  }
 }

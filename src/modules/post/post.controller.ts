@@ -78,4 +78,15 @@ export class PostController {
   likeBlog(@Param('id', new ParseMongoIdPipe()) id: string, @Req() req: any) {
     return this.postService.like(id, req.user._id)
   }
+
+  // add to bookmark and remoev from bookmark a blog by ID
+  @UseGuards(AuthGuard())
+  @ApiLike()
+  @Patch(':id/bookmark')
+  bookmarkBlog(
+    @Param('id', new ParseMongoIdPipe()) id: string,
+    @Req() req: any,
+  ) {
+    return this.postService.bookmark(id, req.user._id)
+  }
 }
