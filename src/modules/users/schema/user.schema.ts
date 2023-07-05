@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 enum Role {
-  ADMIN,
-  WRITER,
-  USER,
+  ADMIN = 'ADMIN',
+  WRITER = 'WRITER',
+  USER = 'USER',
 }
 
 @Schema({
