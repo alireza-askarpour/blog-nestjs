@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 
 import { CategoryService } from './category.service'
 
@@ -22,6 +22,7 @@ import { ApiDelete } from './docs/delete.doc'
 import { ApiGetCategory } from './docs/get-category.doc'
 import { ApiGetCategories } from './docs/get-categories'
 
+@ApiBearerAuth()
 @ApiTags('Category')
 @Controller('categories')
 export class CategoryController {
