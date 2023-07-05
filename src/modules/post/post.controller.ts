@@ -21,6 +21,7 @@ import { ApiGetAll } from './docs/get-all'
 import { ApiUpdate } from './docs/update.doc'
 import { ApiDelete } from './docs/delete.doc'
 import { ApiGetOne } from './docs/get-one.doc'
+import { ApiLike } from './docs/like.doc'
 
 @ApiBearerAuth()
 @ApiTags('Post')
@@ -68,5 +69,13 @@ export class PostController {
   @Get(':id')
   async getPost(@Param('id', new ParseMongoIdPipe()) id: string) {
     return this.postService.findById(id)
+  }
+
+  // like and unlike blog by ID
+  @UseGuards(AuthGuard())
+  @ApiLike()
+  @Patch(':id/like')
+  likeBlog(@Param('id', new ParseMongoIdPipe()) id: string, @Req() req: any) {
+    return this.postService.like(id, req.user._id)
   }
 }

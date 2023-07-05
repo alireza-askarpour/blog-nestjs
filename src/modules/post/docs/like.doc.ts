@@ -1,5 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common'
 import {
+  ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -7,26 +8,17 @@ import {
 } from '@nestjs/swagger'
 import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
-export const ApiGetMe = () => {
+export const ApiLike = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'get loggedin user',
-      description: 'get loggedin user',
+      summary: 'like and unlike a post',
+      description: 'like and unlike a post by ID',
     }),
     ApiOkResponse({
       schema: {
         example: {
           statusCode: HttpStatus.OK,
-          data: {
-            user: {
-              _id: '64a001868bf0667dbea62b00',
-              fullname: 'John Doe',
-              username: 'johndoe',
-              role: 'ADMIN',
-              createdAt: '2023-07-01T10:35:50.565Z',
-              updatedAt: '2023-07-01T10:35:50.565Z',
-            },
-          },
+          messages: 'LIKED_POST',
         },
       },
     }),
@@ -36,6 +28,15 @@ export const ApiGetMe = () => {
           statusCode: HttpStatus.UNAUTHORIZED,
           message: ResponseMessages.UNAUTHORIZED,
           error: 'Unauthorized',
+        },
+      },
+    }),
+    ApiBadRequestResponse({
+      schema: {
+        example: {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ResponseMessages.BAD_REQUEST,
+          error: 'Bad Request',
         },
       },
     }),

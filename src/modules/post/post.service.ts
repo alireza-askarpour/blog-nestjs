@@ -138,4 +138,15 @@ export class PostService {
       },
     }
   }
+
+  async like(postId: string, userId: string) {
+    await this.postRepository.findPostById(postId)
+
+    const message = await this.postRepository.like(postId, userId)
+
+    return {
+      statusCode: HttpStatus.OK,
+      message,
+    }
+  }
 }

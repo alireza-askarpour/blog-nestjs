@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose'
 
 import { Post } from './models/post.model'
 import { UpdatePostDto } from './dtos/update.dto'
+import { ResponseMessages } from 'src/shared/constants/response-messages.constant'
 
 @Injectable()
 export class PostRepository {
@@ -49,5 +50,21 @@ export class PostRepository {
         select: { createdAt: 0, updatedAt: 0 },
       },
     ])
+  }
+
+  async like(postId: string, userId: string) {
+    const likedPost = await this.postModel.findOne({
+      _id: postId,
+      likes: userId,
+    })
+
+    const updateQuery = likedPost
+      ? { $pull: { likes: userId } }
+      : { $push: { likes: userId } }
+    await this.postModel.updateOne({ _id: postId }, updateQuery)
+
+    return likedPost
+      ? ResponseMessages.UNLIKED_POST
+      : ResponseMessages.LIKED_POST
   }
 }
