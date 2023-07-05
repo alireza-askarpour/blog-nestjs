@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class CreateCategoryDto {
   @ApiProperty({
@@ -36,7 +36,7 @@ export class CreateCategoryDto {
     type: String,
     example: '64a01b1f0d95ead9c8ea82b6',
   })
-  @IsString()
   @IsOptional()
+  @IsMongoId()
   parent: string
 }

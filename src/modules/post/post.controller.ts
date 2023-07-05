@@ -7,14 +7,18 @@ import {
   Patch,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
 import { Request } from 'express'
 
 import { PostService } from './post.service'
 import { CreatePostDto } from './dtos/create.dto'
 import { UpdatePostDto } from './dtos/update.dto'
+import { ParseMongoIdPipe } from 'src/shared/pipes/parse-mongo-id.pipe'
 
+@ApiBearerAuth()
 @ApiTags('Post')
 @Controller('posts')
 export class PostController {
@@ -27,27 +31,33 @@ export class PostController {
   }
 
   // create a post
+  @UseGuards(AuthGuard())
   @Post()
-  async createPost(@Body() postDto: CreatePostDto, @Req() req: Request) {
-    postDto.author = '649f397c32fbd30989b81b28'
+  async createPost(@Body() postDto: CreatePostDto, @Req() req: any) {
+    postDto.author = req.user._id
     return this.postService.create(postDto)
   }
 
   // update a post by ID
+  @UseGuards(AuthGuard())
   @Patch(':id')
-  async updatePost(@Param('id') id: string, @Body() postDto: UpdatePostDto) {
+  async updatePost(
+    @Param('id', new ParseMongoIdPipe()) id: string,
+    @Body() postDto: UpdatePostDto,
+  ) {
     return this.postService.update(id, postDto)
   }
 
   // delete a post by ID
+  @UseGuards(AuthGuard())
   @Delete(':id')
-  async deletePost(@Param('id') id: string) {
+  async deletePost(@Param('id', new ParseMongoIdPipe()) id: string) {
     return this.postService.delete(id)
   }
 
   // get a post by ID
   @Get(':id')
-  async getPost(@Param('id') id: string) {
+  async getPost(@Param('id', new ParseMongoIdPipe()) id: string) {
     return this.postService.findById(id)
   }
 }

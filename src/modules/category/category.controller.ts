@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
@@ -21,6 +21,8 @@ import { ApiUpdate } from './docs/update.doc'
 import { ApiDelete } from './docs/delete.doc'
 import { ApiGetCategory } from './docs/get-category.doc'
 import { ApiGetCategories } from './docs/get-categories'
+
+import { ParseMongoIdPipe } from '../../shared/pipes/parse-mongo-id.pipe'
 
 @ApiBearerAuth()
 @ApiTags('Category')
@@ -39,9 +41,9 @@ export class CategoryController {
   // update a category by ID
   @UseGuards(AuthGuard())
   @ApiUpdate()
-  @Put(':id')
+  @Patch(':id')
   async updateCategory(
-    @Param('id') id: string,
+    @Param('id', new ParseMongoIdPipe()) id: string,
     @Body() updateDto: UpdateCategoryDto,
   ) {
     return await this.categoryService.update(id, updateDto)
@@ -57,7 +59,7 @@ export class CategoryController {
   // get category by ID
   @ApiGetCategory()
   @Get(':id')
-  async getCategoryById(@Param('id') id: string) {
+  async getCategoryById(@Param('id', new ParseMongoIdPipe()) id: string) {
     return await this.categoryService.getCategory(id)
   }
 
@@ -65,7 +67,7 @@ export class CategoryController {
   @UseGuards(AuthGuard())
   @ApiDelete()
   @Delete(':id')
-  async deleteCategoryById(@Param('id') id: string) {
+  async deleteCategoryById(@Param('id', new ParseMongoIdPipe()) id: string) {
     return await this.categoryService.delete(id)
   }
 }

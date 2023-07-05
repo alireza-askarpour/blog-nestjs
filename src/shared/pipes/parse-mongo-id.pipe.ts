@@ -5,7 +5,7 @@ import {
   PipeTransform,
 } from '@nestjs/common'
 import { Types } from 'mongoose'
-import { ResponseMessages } from '../../constants/response-messages.constant'
+import { ResponseMessages } from '../constants/response-messages.constant'
 
 @Injectable()
 export class ParseMongoIdPipe implements PipeTransform {

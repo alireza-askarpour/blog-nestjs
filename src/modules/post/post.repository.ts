@@ -18,7 +18,16 @@ export class PostRepository {
   }
 
   async findPostById(id: string) {
-    return await this.postModel.findById(id)
+    return await this.postModel.findById(id).populate([
+      {
+        path: 'category',
+        select: { slug: 1, value: 1, _id: 1 },
+      },
+      {
+        path: 'author',
+        select: { createdAt: 0, updatedAt: 0 },
+      },
+    ])
   }
 
   async update(id: string, postDto: UpdatePostDto) {
@@ -30,6 +39,15 @@ export class PostRepository {
   }
 
   async getAll() {
-    return await this.postModel.find()
+    return await this.postModel.find().populate([
+      {
+        path: 'category',
+        select: { slug: 1, value: 1, _id: 1 },
+      },
+      {
+        path: 'author',
+        select: { createdAt: 0, updatedAt: 0 },
+      },
+    ])
   }
 }

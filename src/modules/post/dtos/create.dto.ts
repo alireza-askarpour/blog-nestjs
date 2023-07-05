@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsArray,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -45,7 +46,7 @@ export class CreatePostDto {
   content: string
 
   @IsOptional()
-  @IsString()
+  @IsMongoId()
   author: string
 
   @ApiProperty({
@@ -67,7 +68,7 @@ export class CreatePostDto {
     example: '64a03b5e9f7f86e9c7db2d99',
   })
   @IsNotEmpty()
-  @IsString()
+  @IsMongoId()
   category: string
 
   @ApiProperty({

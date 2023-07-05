@@ -104,9 +104,6 @@ export class CategoryService {
 
       return {
         statusCode: HttpStatus.OK,
-        data: {
-          category: updateResult,
-        },
       }
     } catch (err) {
       throw err

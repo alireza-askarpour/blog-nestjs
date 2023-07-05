@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsArray,
+  IsMongoId,
   IsOptional,
   IsString,
   MaxLength,
@@ -62,7 +63,7 @@ export class UpdatePostDto {
     example: '64a03b5e9f7f86e9c7db2d99',
   })
   @IsOptional()
-  @IsString()
+  @IsMongoId()
   category: string
 
   @ApiProperty({
