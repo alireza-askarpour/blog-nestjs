@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
+import { MulterModule } from '@nestjs/platform-express'
 
 import { AuthModule } from './modules/auth/auth.module'
 import { UsersModule } from './modules/users/users.module'
@@ -9,7 +10,6 @@ import { PostModule } from './modules/post/post.module'
 import { UploadsModule } from './modules/uploads/uploads.module'
 
 import configuration from './config/app.config'
-import { MulterModule } from '@nestjs/platform-express'
 
 @Module({
   imports: [
