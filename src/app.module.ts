@@ -6,8 +6,10 @@ import { AuthModule } from './modules/auth/auth.module'
 import { UsersModule } from './modules/users/users.module'
 import { CategoryModule } from './modules/category/category.module'
 import { PostModule } from './modules/post/post.module'
+import { UploadsModule } from './modules/uploads/uploads.module'
 
 import configuration from './config/app.config'
+import { MulterModule } from '@nestjs/platform-express'
 
 @Module({
   imports: [
@@ -17,10 +19,12 @@ import configuration from './config/app.config'
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
+    MulterModule.register({ dest: './uploads' }),
     AuthModule,
     UsersModule,
     CategoryModule,
     PostModule,
+    UploadsModule,
   ],
   controllers: [],
   providers: [],
